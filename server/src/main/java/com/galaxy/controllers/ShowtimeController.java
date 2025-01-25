@@ -21,6 +21,11 @@ public class ShowtimeController {
 	@Autowired
 	ShowtimeService showTimeSer;
 
+	@GetMapping("/next-week")
+	public ResponseEntity<ApiResponse<?>> getMoviesWithShowtimesIn7Days() {
+		return showTimeSer.getMoviesWithShowtimesForNext7Days();
+	}
+
 	@GetMapping("/film/getAll/{filmID}")
 	public ResponseEntity<ApiResponse<?>> getAllShowTimeByFilm(@PathVariable int filmID) {
 		return showTimeSer.getAllShowTimeByFilm(filmID);

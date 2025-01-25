@@ -33,6 +33,8 @@ public class ShowtimeService {
         @Autowired
         FilmRepo filmRepo;
 
+        @Autowired
+        OrderFilmRepo orderFilmRepo;
 
         public ResponseEntity<ApiResponse<?>> getAllShowTimeByFilm(int filmID) {
                 List<Showtime> showtimes = showtimeRepo.findByFilmIdOrderByStartShowAsc(filmID);
@@ -71,6 +73,66 @@ public class ShowtimeService {
                                         .body(new ApiResponse<>(ResponseTitle.ERROR,
                                                         "Failed to delete showtime: " + e.getMessage(), 400));
                 }
+        }
+
+        public ResponseEntity<ApiResponse<?>> getShowtimesForNext7Days(int filmID) {
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime endDate = now.plusDays(6).withHour(23).withMinute(59).withSecond(59);
+                List<Showtime> showtimes = showtimeRepo.findByStartShowBetweenAndFilmIdOrderByStartShowAsc(now, endDate,
+                                filmID);
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+                List<ShowtimeDTO> showtimeDTOs = showtimes.stream()
+                                .map(showtime -> {
+                                        ShowtimeDTO dto = new ShowtimeDTO();
+                                        dto.setId(showtime.getId());
+                                        dto.setDate(showtime.getStartShow().format(dateFormatter));
+                                        dto.setStartShow(showtime.getStartShow().format(timeFormatter));
+                                        dto.setScreen(showtime.getScreen());
+                                        return dto;
+                                }).collect(Collectors.toList());
+                return ResponseEntity.ok().body(new ApiResponse<>(ResponseTitle.SUCCESS,
+                                "Showtime retrieved successfully", 200, showtimeDTOs));
+        }
+
+        public ResponseEntity<ApiResponse<?>> getMoviesWithShowtimesForNext7Days() {
+                // Lấy thời gian hiện tại và 6 ngày sau
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime endDate = now.plusDays(6).withHour(23).withMinute(59).withSecond(59);
+
+                List<Showtime> showtimes = showtimeRepo.findShowtimesInNext7Days(now, endDate);
+
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+                Map<Film, List<Showtime>> showtimesByFilm = showtimes.stream()
+                                .collect(Collectors.groupingBy(Showtime::getFilm));
+
+                List<MovieShowtimeDTO> result = new ArrayList<>();
+
+                showtimesByFilm.forEach((film, filmShowtimes) -> {
+                        MovieShowtimeDTO movieDto = new MovieShowtimeDTO();
+                        movieDto.setFilmID(film.getId());
+                        movieDto.setName(film.getName());
+                        movieDto.setImage(film.getImage());
+
+                        List<ShowtimeDTO> showtimeDTOs = filmShowtimes.stream()
+                                        .map(showtime -> {
+                                                ShowtimeDTO dto = new ShowtimeDTO();
+                                                dto.setId(showtime.getId());
+                                                dto.setDate(showtime.getStartShow().format(dateFormatter));
+                                                dto.setStartShow(showtime.getStartShow().format(timeFormatter));
+                                                dto.setScreen(showtime.getScreen());
+                                                return dto;
+                                        })
+                                        .collect(Collectors.toList());
+
+                        movieDto.setShowTimes(showtimeDTOs);
+                        result.add(movieDto);
+                });
+
+                return ResponseEntity.ok()
+                                .body(new ApiResponse<>(ResponseTitle.SUCCESS, "Retrieved successfully", 200, result));
         }
 
 
