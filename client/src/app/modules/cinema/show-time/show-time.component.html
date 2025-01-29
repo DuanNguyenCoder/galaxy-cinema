@@ -1,0 +1,85 @@
+<div class="flex mb-[75vh] flex-col">
+  <div class="parent">
+    <div class="bg-gray-900 text-white p-4 rounded-lg max-w-4xl mx-auto">
+      <h5 class="text-2xl font-bold text-center mb-6 text-orange-500">
+        ĐẶT VÉ XEM PHIM
+      </h5>
+
+      <!-- Thanh hiển thị 7 ngày -->
+      <div
+        class="flex justify-between bg-gray-800 rounded-md mb-6 overflow-x-auto"
+      >
+        <div
+          *ngFor="let date of dates"
+          (click)="handleDateSelect(date.dateKey)"
+          [ngClass]="{
+            'bg-orange-600 text-white': selectedDate === date.dateKey,
+            'hover:bg-gray-700': selectedDate !== date.dateKey
+          }"
+          class="flex-1 cursor-pointer py-3 px-4 text-center transition-colors duration-200 min-w-24"
+        >
+          <div class="font-medium text-sm">{{ date.day }}</div>
+          <div class="text-sm font-bold">{{ date.date }}</div>
+        </div>
+      </div>
+
+      <!-- Hiển thị phim theo ngày đã chọn -->
+      <div class="space-y-6">
+        <h2 class="text-lg font-semibold border-b border-gray-700 pb-2">
+          Phim chiếu ngày: {{ getSelectedDateInfo()?.formattedDate }}
+        </h2>
+
+        <!-- Loading indicator -->
+        <div *ngIf="isLoading" class="text-center py-8">
+          <div
+            class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"
+          ></div>
+          <p class="mt-2 text-gray-400">Đang tải lịch chiếu...</p>
+        </div>
+
+        <ng-container
+          *ngIf="
+            !isLoading && getMoviesForSelectedDate().length > 0;
+            else noMovies
+          "
+        >
+          <div
+            *ngFor="let movie of getMoviesForSelectedDate()"
+            class="bg-gray-800 rounded-lg p-4 flex mb-4"
+          >
+            <img
+              [src]="apiUrl + movie.image"
+              [alt]="movie.name"
+              class="w-[120px] h-[180px] object-cover rounded-md mr-4"
+            />
+            <div class="flex-1">
+              <h3 class="text-lg font-bold mb-2">{{ movie.name }}</h3>
+              <div class="mb-4">
+                <span class="text-gray-400 text-sm">Suất chiếu:</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <ng-container *ngFor="let showtime of movie.showTimes">
+                  <button
+                    (click)="orderTicket(showtime, movie)"
+                    class="bg-gray-700 text-sm hover:bg-orange-600 transition-colors duration-200 py-2 px-4 rounded-md"
+                  >
+                    {{ showtime.startShow }}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noMovies>
+          <div
+            *ngIf="!isLoading"
+            class="text-center py-10 bg-gray-800 rounded-lg"
+          >
+            <p class="text-gray-400">Không có suất chiếu nào vào ngày này</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-GalaxyCenemaApplication<GalaxyCenema>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.galaxy.GalaxyCenemaApplication",
+      "projectName": "GalaxyCenema",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

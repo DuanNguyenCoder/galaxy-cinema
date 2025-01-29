@@ -1,0 +1,121 @@
+<!-- content -->
+<body class="bg-gray-900 text-gray-100 font-sans">
+  <div class="mb-8 bg-black h-[500px]">
+    <div class="m-auto fade-image">
+      <img
+        class="h-full m-auto mask-image: linear-gradient(to right, black, transparent 30%, transparent 70%, black);"
+        [src]="imageUrl + orderSer.getTicketData().movie.image"
+        alt=""
+      />
+    </div>
+  </div>
+  <div class="container mx-auto px-4 max-w-4xl">
+    <!-- Header -->
+    <div class="flex gap-[40px]">
+      <div class="relative border top-[-75px]">
+        <img
+          class="max-h-[280px]"
+          [src]="imageUrl + orderSer.getTicketData().movie.image"
+          alt=""
+        />
+      </div>
+      <div>
+        <!-- Movie Info -->
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold">
+            {{ orderSer.getTicketData().movie.name }}
+          </h3>
+          <div class="flex gap-4 text-sm text-gray-400">
+            <span>THB</span>
+            <span>{{ orderSer.getTicketData().movie.time }} Phút</span>
+            <span>{{
+              orderSer.getTicketData().movie.dateStart | date : "dd-MM-yyyy"
+            }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-amber-400 text-lg">8⭐</span>
+            <span class="text-sm">(151 votes)</span>
+            <span class="ml-4"
+              >Quốc gia: {{ orderSer.getTicketData().movie.country }}</span
+            >
+          </div>
+          <p class="text-sm">
+            Độ tuổi phù hợp: {{ orderSer.getTicketData().movie.ageLimited }}
+          </p>
+        </div>
+
+        <!-- Genre Table -->
+        <table class="w-52 my-2">
+          <tr class="text-sm">
+            <td class="py-2">Thể loại:</td>
+            <td class="py-2">{{ orderSer.getTicketData().movie.typefilm }}</td>
+          </tr>
+          <tr class="text-sm">
+            <td class="py-2">Đạo diễn:</td>
+            <td colspan="3" class="py-2">
+              {{ orderSer.getTicketData().movie.author }}
+            </td>
+          </tr>
+          <tr class="text-sm">
+            <td class="py-2">Diễn viên:</td>
+            <td class="py-2">{{ orderSer.getTicketData().movie.actor }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="my-8 space-y-4">
+      <h4 class="font-bold">Nội Dung Phim</h4>
+      <p class="text-sm text-gray-300 leading-relaxed">
+        {{ orderSer.getTicketData().movie.description }}
+      </p>
+    </div>
+
+    <!-- Schedule -->
+    <div class="my-8">
+      <h4 class="font-bold mb-4">Lịch Chiếu</h4>
+      <div class="grid grid-cols-5 gap-4 text-sm mb-6" role="group">
+        <button
+          *ngFor="let data of showTimeMovie"
+          (click)="openDate(data.shows)"
+          class="focus:text-amber-400 text-start hover:cursor-pointer"
+        >
+          {{ data.date }}
+        </button>
+      </div>
+
+      <!-- Theater Schedule -->
+      <div class="space-y-6">
+        <div>
+          <h5 class="font-bold text-amber-400 mb-2">Galaxy Nguyễn Du</h5>
+          <div class="flex gap-4 text-sm">
+            <button
+              *ngFor="let show of selectedDate"
+              (click)="orderTicket(show)"
+              class="bg-gray-700 px-3 py-1 rounded"
+            >
+              {{ show.time }}
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h5 class="font-bold">PHIM ĐANG CHIẾU</h5>
+          <div class="text-sm space-y-2 mt-2">
+            <p>Nhà Ga Tiến</p>
+            <p>Nhà Ga Tiến</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Banner -->
+    <div class="mt-8 p-4 bg-gray-800 rounded text-center">
+      <p class="font-bold">Captain America: Thế Giới Mới</p>
+      <p class="text-sm text-gray-400 mt-2">Khởi chiếu 14.02.2025</p>
+    </div>
+  </div>
+</body>
+<!-- content -->
+<div class="event"><app-event></app-event></div>
