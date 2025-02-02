@@ -135,5 +135,13 @@ public class ShowtimeService {
                                 .body(new ApiResponse<>(ResponseTitle.SUCCESS, "Retrieved successfully", 200, result));
         }
 
-
+        public ResponseEntity<ApiResponse<?>> getSeatOrdered(int showtimeID) {
+                List<OrderFilm> orderFilms = orderFilmRepo.findByMovieIdAndInvoiceStatus(showtimeID, "PAID");
+                List<String> seat = new ArrayList<>();
+                for (OrderFilm orderFilm : orderFilms) {
+                        seat.add(orderFilm.getSeat());
+                }
+                return ResponseEntity.ok().body(new ApiResponse<>(ResponseTitle.SUCCESS, "Retrieved successfully", 200,
+                                seat));
+        }
 }

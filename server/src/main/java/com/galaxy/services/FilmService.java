@@ -96,6 +96,11 @@ public class FilmService {
 		}
 	}
 
+	public List<Rating> getAllRatingOfFilm(int id) {
+		System.err.println(filmRepo.findById(id).get().getRating().size());
+
+		return filmRepo.findById(id).get().getRating();
+	}
 
 	public ResponseEntity<ApiResponse<?>> getAllFilm(Pageable pageable) {
 		return ResponseEntity.status(HttpStatus.OK.value())
