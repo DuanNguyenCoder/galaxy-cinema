@@ -46,5 +46,9 @@ public class ShowtimeController {
 		return showTimeSer.deleteShowtime(id);
 	}
 
+	@GetMapping("/seatOrdered/{showtimeID}")
+	public ResponseEntity<ApiResponse<?>> getSeatOrdered(@PathVariable int showtimeID) {
+		return showTimeSer.getSeatOrdered(showtimeID);
+	}
 
 }
