@@ -1,3 +1,9 @@
+export interface Breadcrumb {
+  label: string;
+  url: string;
+  selected?: boolean;
+}
+
 
 export interface MovieShowTime {
   id?: number;
@@ -34,6 +40,15 @@ export interface DateInfo {
 }
 
 
+
+export interface Review {
+  rate?: number;
+  rateDate?: any;
+  id?: number;
+  comment?: string;
+  customer?: Customer;
+  film?: Movie;
+}
 export interface Showtime {
   id?: number;
   startShow?: string;
@@ -41,6 +56,12 @@ export interface Showtime {
   date?: string;
 }
 
+export interface ticket {
+  seat?: string;
+  price?: number;
+  type?: string;
+  createdDate?: string;
+}
 
 export interface Customer {
   id?: number;
