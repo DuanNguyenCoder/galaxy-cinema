@@ -1,0 +1,38 @@
+.selected {
+  background-color: orange !important;
+}
+.seat {
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  margin: 8px;
+  color: rgb(0, 0, 0);
+}
+.seat-able {
+  text-align: center;
+  background-color: rgb(246, 240, 240);
+  &:hover {
+    cursor: pointer;
+    background-color: orange;
+  }
+}
+
+.seat-ordered {
+  text-align: center;
+  background-color: #6b6b6b;
+  color: white;
+}
+
+.screen {
+  background: url(../../../../../assets/images/screen.png) center no-repeat;
+  background-size: contain;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  top: 50px;
+  height: 50px;
+  height: 100px;
+}

@@ -1,0 +1,80 @@
+<div class="flex justify-between">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="infor flex">
+      <img
+        class="w-[300px] h-[400px]"
+        [src]="orderSer.getTicketData().movie.image"
+        alt="wrong"
+      />
+      <div class="detail-infor ml-[20px] flex flex-col">
+        <h2 class="text-green-600 text-xl">
+          {{ orderSer.getTicketData().movie.name }}
+        </h2>
+        <p>
+          Suất chiếu thu 7 ngày 20 tháng 1 luc
+          {{ orderSer.getTicketData().showtime.startShow }}
+        </p>
+        <p>
+          Galaxy Le Van Viet rap {{ orderSer.getTicketData().showtime.screen }}
+        </p>
+      </div>
+    </div>
+    <div class="my-[20px]">
+      <h2 class="text-amber-500 text-xl font-medium">Chọn Ghế</h2>
+      <p class="max-w-[600px]">
+        Vui lòng chọn ghế ở phía bên dưới. nếu muốn chọn loại ghế khác hoặc thay
+        đổi số lượng vé muốn mua thì bấm vào
+        <span class="text-green-600"> Bước 1 "chọn vé"</span> ở thanh công cụ ở
+        trên để quay trở lại giao diện chọn vé
+      </p>
+      <p>*Lưu ý</p>
+      <div class="flex gap-5">
+        <div class="w-5 h-5 bg-orange-400"></div>
+        <p>Vé bạn chọn</p>
+        <div class="w-5 h-5 bg-gray-600"></div>
+        <p>Vé đã đặt</p>
+      </div>
+    </div>
+    <!--select seat  -->
+
+    <div>
+      <div
+        class="bg-transparent w-[100%] flex flex-col items-center select-seat"
+      >
+        <div class="screen m-auto font-normal">screen</div>
+        <div class="m-auto relative z-[2] top-[-25px]">
+          <table class="border-separate border-spacing-5">
+            <tr *ngFor="let row of rows">
+              <td class="hover:cursor-pointer text-center text-white">
+                {{ row }}
+              </td>
+              <td
+                class="seat"
+                *ngFor="let item of seatsByRow(row)"
+                [ngClass]="getSeatClass(row, item)"
+                (click)="selectSeat(row, item)"
+              >
+                {{ item.number }}
+              </td>
+              <td class="hover:cursor-pointer text-center text-white">
+                {{ row }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+  </div>
+</div>
+<div class="flex justify-end">
+  <button
+    mat-raised-button
+    style="margin-top: 50px"
+    class="mt-28 text-white bg-green-600"
+    (click)="nextStep()"
+  >
+    Chọn combo
+  </button>
+</div>
