@@ -4,6 +4,12 @@ export interface Breadcrumb {
   selected?: boolean;
 }
 
+export interface Seat {
+  number: number;
+  selected?: boolean;
+  row: string;
+  ordered?: boolean;
+}
 
 export interface MovieShowTime {
   id?: number;
@@ -61,6 +67,12 @@ export interface ticket {
   price?: number;
   type?: string;
   createdDate?: string;
+}
+export interface comboFood {
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
 }
 
 export interface Customer {

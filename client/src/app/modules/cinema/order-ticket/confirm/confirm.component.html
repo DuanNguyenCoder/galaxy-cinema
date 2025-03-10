@@ -1,0 +1,136 @@
+<div style="background-color: #333333" class="w-[860px] p-3">
+  <span class="text-white text-xl font-bold">Giỏ hàng của bạn</span>
+  <hr class="relative cus-icon bg-white" />
+  <div>
+    <table class="text-white w-[100%]">
+      <tr>
+        <td class="text-green-500">Phim/Title</td>
+        <td class="text-green-500">
+          {{ orderSer.getTicketData().movie.name }}
+        </td>
+      </tr>
+      <tr>
+        <td>Ngày/Date</td>
+        <td>
+          {{
+            dateFomatMovie.dayOfWeek +
+              " ngày " +
+              dateFomatMovie.day +
+              " tháng " +
+              dateFomatMovie.month
+          }}
+        </td>
+      </tr>
+      <tr>
+        <td>Suất/Session</td>
+        <td>
+          {{
+            orderSer.getTicketData().showtime.startShow +
+              " Rạp " +
+              orderSer.getTicketData().showtime.screen
+          }}
+        </td>
+      </tr>
+      <tr>
+        <td class="text-red-600">Ghế/Seat</td>
+
+        <td class="text-red-600">
+          <span *ngFor="let s of orderSer.getTicketData().tickets"
+            >{{ s.seat }}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>Thành tiền/Total</td>
+        <td>{{ orderSer.getTicketData().totalPrice | number : "1.0" }}</td>
+      </tr>
+    </table>
+    <div class="flex flex-col">
+      <span
+        >Qúy khách vui lòng kiểm tra lại thông tin trước khi thanh toán</span
+      >
+      <span class="text-red-600">Vé mua rồi không được đổi hoặc trả lại</span>
+      <span
+        >Qúy khách vui lòng kiểm tra lại thông tin trước khi thanh toán</span
+      >
+      <span class="text-red-600">Vé mua rồi không được đổi hoặc trả lại</span>
+    </div>
+  </div>
+  <!-- details bill -->
+  <div class="mt-2">
+    <table class="table table-hover text-white">
+      <thead class="text-green-500">
+        <tr>
+          <th>Mục</th>
+          <th>Giá</th>
+          <th>Số lượng</th>
+          <th>Cộng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of dataTicket | keyvalue">
+          <td>{{ ticket.value.type }}-standard</td>
+          <td>{{ ticket.value.price | number : "1.0" }}</td>
+          <td>{{ ticket.value.quantity | number : "1.0" }}</td>
+          <td>
+            {{ ticket.value.quantity * ticket.value.price | number : "1.0" }}
+          </td>
+        </tr>
+        <ng-container *ngFor="let ticket of orderSer.getTicketData().comboFood">
+          <tr *ngIf="ticket.quantity > 0">
+            <td>{{ ticket.name }}</td>
+            <td>{{ ticket.price | number : "1.0" }}</td>
+            <td>{{ ticket.quantity | number : "1.0" }}</td>
+            <td>
+              {{ ticket.price * ticket.quantity | number : "1.0" }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <p class="text-end">
+      Tổng cộng
+      <span class="font-bold"
+        >VND {{ orderSer.getTicketData().totalPrice | number : "1.0" }}</span
+      >
+    </p>
+  </div>
+</div>
+<!-- Type of payment -->
+<div class="mt-3">
+  <h3 class="text-base font-medium text-green-500 mb-4">
+    Phương thức thanh toán
+  </h3>
+
+  <div class="mb-6">
+    <div class="flex space-x-4">
+      <div class="flex gap-2 items-center">
+        <input
+          id="credit-card"
+          name="payment-method"
+          type="radio"
+          checked
+          class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+        />
+        <span for="credit-card" class="block text-sm font-medium text-white"
+          >Thẻ tín dụng</span
+        >
+        <div class="flex space-x-2">
+          <i class="fab fa-cc-visa text-blue-400"></i>
+          <i class="fab fa-cc-mastercard text-orange-400"></i>
+          <i class="fab fa-cc-amex text-green-500"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-end">
+  <button
+    mat-raised-button
+    style="margin-top: 50px"
+    class="mt-28 text-white bg-green-600"
+    (click)="pay()"
+  >
+    Thanh toán
+  </button>
+</div>
