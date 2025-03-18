@@ -101,7 +101,7 @@ public class InvoiceService {
 																											// hủy
 																											// thanh
 																											// toán
-					.putMetadata("orderId", String.valueOf(invoice.getId()))
+					.putMetadata("orderId", String.valueOf(invoice.getId())).putMetadata("email", customer.getEmail())
 					.addLineItem(SessionCreateParams.LineItem.builder()
 							.setQuantity(1L)
 							.setPriceData(SessionCreateParams.LineItem.PriceData.builder()

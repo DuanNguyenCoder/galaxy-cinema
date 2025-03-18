@@ -1,6 +1,8 @@
 package com.galaxy.controllers;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import com.galaxy.enums.ResponseTitle;
 import com.galaxy.payoads.ApiResponse;
 import com.galaxy.services.CustomerService;
 import com.galaxy.services.InvoiceService;
+import com.galaxy.services.QRcodeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 
@@ -26,6 +29,8 @@ public class PaymentController {
     @Autowired
     private InvoiceService invoiceSer;
 
+    @Autowired
+    private QRcodeService qrcodeSer;
     @Autowired
     private CustomerService customerService;
 
@@ -50,6 +55,11 @@ public class PaymentController {
         if ("paid".equals(session.getPaymentStatus())) {
             // change status invoice
             int invoiceID = Integer.parseInt(session.getMetadata().get("orderId"));
+            String email = session.getMetadata().get("email");
+            CompletableFuture.runAsync(() -> {
+                qrcodeSer.generateAndSendQR(email, String.valueOf(invoiceID));
+
+            });
             invoiceSer.updateStatusInvoice(invoiceID);
             return ResponseEntity.ok().body(new ApiResponse<>(ResponseTitle.SUCCESS, "Thanh toán thành công!", 200));
         } else {
