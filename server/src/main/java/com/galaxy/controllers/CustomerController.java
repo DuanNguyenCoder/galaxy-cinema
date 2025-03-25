@@ -40,6 +40,18 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
+	@GetMapping
+	public ResponseEntity<ApiResponse<Page<Customer>>> getCustomers(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size,
+			@RequestParam(required = false) String search) {
+		Page<Customer> customers = customerService.getCustomers(PageRequest.of(page, size), search);
+		return ResponseEntity.ok(new ApiResponse<>(
+				ResponseTitle.SUCCESS,
+				"Lấy danh sách khách hàng thành công",
+				200,
+				customers));
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable int id) {
@@ -51,6 +63,27 @@ public class CustomerController {
 				customer));
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<ApiResponse<Customer>> updateCustomer(
+			@PathVariable int id,
+			@RequestBody Customer customer) {
+		Customer updatedCustomer = customerService.updateCustomer(id, customer);
+		return ResponseEntity.ok(new ApiResponse<>(
+				ResponseTitle.SUCCESS,
+				"Cập nhật thông tin khách hàng thành công",
+				200,
+				updatedCustomer));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable int id) {
+		customerService.deleteCustomer(id);
+		return ResponseEntity.ok(new ApiResponse<>(
+				ResponseTitle.SUCCESS,
+				"Xóa khách hàng thành công",
+				200,
+				null));
+	}
 
 	@GetMapping("/profile")
 	public Map<String, Object> getLogin(@RequestHeader("Authorization") String authHeader) {

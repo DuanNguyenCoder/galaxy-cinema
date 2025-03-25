@@ -45,7 +45,17 @@ export interface DateInfo {
   day: number;
 }
 
-
+export interface Food {
+  id?: number;
+  name?: string;
+  price?: number;
+  type?: string;
+  stock?: number;
+  avaiable?: number;
+  createDay?: Date;
+  updateDay?: Date;
+  image?: string;
+}
 
 export interface Review {
   rate?: number;

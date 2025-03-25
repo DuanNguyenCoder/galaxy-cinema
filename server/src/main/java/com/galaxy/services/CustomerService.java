@@ -25,8 +25,43 @@ public class CustomerService {
 	@Autowired
 	CustomerRepo cusRepo;
 
+	public Page<Customer> getCustomers(Pageable pageable, String search) {
+		if (search != null && !search.isEmpty()) {
+			return cusRepo.findByNameContainingOrEmailContainingOrPhoneContaining(
+					search, search, search, pageable);
+		}
+		return cusRepo.findAll(pageable);
+	}
 
+	public Customer updateCustomer(int id, Customer customerDetails) {
+		Customer customer = getCustomerById(id);
 
+		customer.setName(customerDetails.getName());
+		customer.setPhone(customerDetails.getPhone());
+
+		// Kiểm tra nếu email mới khác email cũ và đã tồn tại
+		if (!customer.getEmail().equals(customerDetails.getEmail()) &&
+				cusRepo.findByEmail(customerDetails.getEmail()).isPresent()) {
+			throw new IllegalArgumentException("Email đã được sử dụng");
+		}
+		customer.setEmail(customerDetails.getEmail());
+
+		// Cập nhật mật khẩu nếu có
+		if (customerDetails.getPasswords() != null && !customerDetails.getPasswords().isEmpty()) {
+			customer.setPasswords(passwordEncoder.encode(customerDetails.getPasswords()));
+		}
+
+		return cusRepo.save(customer);
+	}
+
+	public void deleteCustomer(int id) {
+		Customer customer = getCustomerById(id);
+		cusRepo.delete(customer);
+	}
+
+	public Customer getCustomerById(int id) {
+		return cusRepo.findById(id).get();
+	}
 
 	public Map<String, Object> getProfile(String token) {
 		return jwt.extractCustomerData(token);
