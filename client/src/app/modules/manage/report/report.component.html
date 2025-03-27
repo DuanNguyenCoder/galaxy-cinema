@@ -1,0 +1,186 @@
+<div class="min-h-screen bg-gray-100 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header Section -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Báo cáo & Thống kê</h1>
+        <div class="flex space-x-4">
+          <mat-form-field appearance="outline" class="w-48">
+            <mat-label>Khoảng thời gian</mat-label>
+            <mat-select [(ngModel)]="timeRange">
+              <mat-option value="today">Hôm nay</mat-option>
+              <mat-option value="week">Tuần này</mat-option>
+              <mat-option value="month">Tháng này</mat-option>
+              <mat-option value="year">Năm nay</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="exportReport()">
+            <mat-icon>download</mat-icon>
+            Xuất báo cáo
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-blue-50 rounded-lg p-6">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-100">
+              <mat-icon class="text-blue-600">receipt</mat-icon>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Tổng doanh thu</p>
+              <p class="text-2xl font-semibold text-gray-800">
+                {{ totalRevenue | currency : "VND" }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-green-50 rounded-lg p-6">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-green-100">
+              <mat-icon class="text-green-600">local_movies</mat-icon>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Số vé bán ra</p>
+              <p class="text-2xl font-semibold text-gray-800">
+                {{ totalTickets }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-purple-50 rounded-lg p-6">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-purple-100">
+              <mat-icon class="text-purple-600">restaurant</mat-icon>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Doanh thu đồ ăn</p>
+              <p class="text-2xl font-semibold text-gray-800">
+                {{ foodRevenue | currency : "VND" }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-orange-50 rounded-lg p-6">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-orange-100">
+              <mat-icon class="text-orange-600">people</mat-icon>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Khách hàng mới</p>
+              <p class="text-2xl font-semibold text-gray-800">
+                {{ newCustomers }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            Doanh thu theo tháng
+          </h3>
+          <div class="h-80">
+            <!-- Chart component will be added here -->
+            <div class="h-full flex items-center justify-center text-gray-500">
+              Biểu đồ doanh thu
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">
+            Top phim bán chạy
+          </h3>
+          <div class="space-y-4">
+            <div *ngFor="let movie of topMovies" class="flex items-center">
+              <div class="w-12 h-12 rounded-lg bg-gray-200 flex-shrink-0">
+                <img
+                  [src]="movie.poster"
+                  [alt]="movie.name"
+                  class="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+              <div class="ml-4 flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  {{ movie.name }}
+                </p>
+                <p class="text-sm text-gray-500">{{ movie.tickets }} vé</p>
+              </div>
+              <div class="text-sm font-semibold text-gray-900">
+                {{ movie.revenue | currency : "VND" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Report -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+          Chi tiết báo cáo
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Ngày
+                </th>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Doanh thu vé
+                </th>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Doanh thu đồ ăn
+                </th>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Tổng doanh thu
+                </th>
+                <th
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Số vé bán
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let report of dailyReports" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ report.date | date : "dd/MM/yyyy" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ report.ticketRevenue | currency : "VND" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ report.foodRevenue | currency : "VND" }}
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  {{ report.totalRevenue | currency : "VND" }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ report.tickets }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

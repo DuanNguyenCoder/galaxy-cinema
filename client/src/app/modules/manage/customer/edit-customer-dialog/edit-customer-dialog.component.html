@@ -1,0 +1,66 @@
+<div>
+  <h2 mat-dialog-title>
+    {{ isEdit ? "Chỉnh sửa thông tin khách hàng" : "Thêm khách hàng mới" }}
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="customerForm" class="flex flex-col gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Họ tên</mat-label>
+        <input matInput formControlName="name" placeholder="Nhập họ tên" />
+        <mat-error *ngIf="customerForm.get('name')?.hasError('required')">
+          Vui lòng nhập họ tên
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          placeholder="Nhập email"
+          type="email"
+        />
+        <mat-error *ngIf="customerForm.get('email')?.hasError('required')">
+          Vui lòng nhập email
+        </mat-error>
+        <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
+          Email không hợp lệ
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Số điện thoại</mat-label>
+        <input
+          matInput
+          formControlName="phone"
+          placeholder="Nhập số điện thoại"
+        />
+        <mat-error *ngIf="customerForm.get('phone')?.hasError('required')">
+          Vui lòng nhập số điện thoại
+        </mat-error>
+        <mat-error *ngIf="customerForm.get('phone')?.hasError('pattern')">
+          Số điện thoại không hợp lệ
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full" *ngIf="isEdit">
+        <mat-label>Trạng thái</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="active">Hoạt động</mat-option>
+          <mat-option value="inactive">Đã khóa</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Hủy</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="customerForm.invalid"
+    >
+      {{ isEdit ? "Cập nhật" : "Thêm mới" }}
+    </button>
+  </mat-dialog-actions>
+</div>

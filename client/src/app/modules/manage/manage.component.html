@@ -1,0 +1,70 @@
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <div class="bg-white shadow-lg w-full">
+    <div class="p-4 flex items-center space-x-3">
+      <img
+        src="../../../assets/logo/galaxyLogo.png"
+        alt="Galaxy Cinema Logo"
+        class="h-8 w-auto"
+      />
+    </div>
+    <mat-tab-group class="h-full bg-white">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="flex items-center space-x-2">
+            <mat-icon>movie</mat-icon>
+            <span>Phim & Lịch chiếu</span>
+          </div>
+        </ng-template>
+        <div class="p-4">
+          <app-film-manage></app-film-manage>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="flex items-center space-x-2">
+            <mat-icon>restaurant</mat-icon>
+            <span>Đồ ăn & Combo</span>
+          </div>
+        </ng-template>
+        <div class="p-4">
+          <app-food-manage></app-food-manage>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="flex items-center space-x-2">
+            <mat-icon>people</mat-icon>
+            <span>Người dùng</span>
+          </div>
+        </ng-template>
+        <div class="p-4">
+          <!-- Customer management component -->
+          <app-customer-manage></app-customer-manage>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="flex items-center space-x-2">
+            <mat-icon>analytics</mat-icon>
+            <span>Thống kê</span>
+          </div>
+        </ng-template>
+        <div class="p-4">
+          <!-- Analytics component -->
+          <app-report-manage></app-report-manage>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 overflow-auto">
+    <div class="p-4">
+      <!-- Content will be shown here -->
+    </div>
+  </div>
+</div>

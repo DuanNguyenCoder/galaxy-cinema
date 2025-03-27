@@ -1,0 +1,61 @@
+<div class="flex">
+  <!-- LEFT -->
+  <div>
+    <h3 CLASS="text-green-400 text-[20px]">CHỌN THỰC PHẨM</h3>
+    <p>Chọn thực phẩm sau đó kiểm tra lại</p>
+    <div class="grid grid-cols-3 grid-rows-2 gap-4">
+      <div
+        *ngFor="let combo of cartData.getTicketData().comboFood"
+        class="flex flex-col items-center grow"
+      >
+        <img
+          class="bg-transparent object-contain min-h-[150px]"
+          src="{{ combo.image }}"
+          alt=""
+        />
+        <span class="text-[18px]">{{ combo.name }}</span>
+        <span class="text-center text-[18px]">{{
+          combo.price | number : "1.0"
+        }}</span>
+        <div class="m-auto">
+          <div class="flex gap-[10px] justify-center">
+            <button
+              (click)="action(combo, 'dec')"
+              style="background-color: green; outline: none; color: white"
+              mat-raised-button
+              type=""
+            >
+              -
+            </button>
+            <input
+              type="number"
+              class="w-12 pl-[10px] text-center text-black"
+              [min]="0"
+              [value]="combo.quantity"
+            />
+            <button
+              (click)="action(combo, 'inc')"
+              style="background-color: green; outline: none; color: white"
+              mat-raised-button
+              type=""
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- LEFT -->
+</div>
+
+<div class="flex justify-end">
+  <button
+    mat-raised-button
+    style="margin-top: 50px"
+    class="mt-28 text-white bg-green-600"
+    (click)="nextStep()"
+  >
+    Thanh toán
+  </button>
+</div>
