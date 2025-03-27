@@ -40,6 +40,7 @@ const routes: Routes = [
       {
         path: 'ticket',
         component: OrderTicketComponent,
+        canActivate: [AuthGuard],
         children: [
           { path: 'selectTicket', component: TicketComponent },
           { path: 'selectSeat', component: SeatComponent },
@@ -50,12 +51,14 @@ const routes: Routes = [
       {
         path: 'payment_infor',
         component: OrderSuccessComponent,
+        canActivate: [AuthGuard],
       },
     ],
   },
   {
     path: 'manage',
     component: ManageComponent,
+    canActivate: [AuthGuard],
   },
   { path: '**', component: NotFoundComponent },
 ];
