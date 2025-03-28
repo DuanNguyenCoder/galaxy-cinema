@@ -27,7 +27,7 @@ public class QRcodeService {
     private static final int DEFAULT_WIDTH = 300;
     private static final int DEFAULT_HEIGHT = 300;
     private static final String QR_CODE_FORMAT = "png";
-    private static final String QR_CODE_DIR = "QRcode";
+    private static final String QR_CODE_DIR = "../../../../resources/static/uploads/QRcode";
     private static final String QR_CODE_FILENAME = "qrcode.png";
 
     /**
