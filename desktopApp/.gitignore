@@ -1,0 +1,53 @@
+# Bỏ qua thư mục bin và obj (file build)
+bin/
+obj/
+
+# Bỏ qua thư mục debug và release (nếu có)
+Debug/
+Release/
+
+# Bỏ qua file dữ liệu tạm thời của Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.cache
+*.pdb
+
+# Bỏ qua thư mục package nếu dùng NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# Bỏ qua file log, database local và file config cá nhân
+*.log
+*.db
+*.sqlite
+*.mdf
+*.ldf
+appsettings.json
+appsettings.Development.json
+
+# Bỏ qua file lock, backup và temporary của Visual Studio
+*.vs/
+.vscode/
+Thumbs.db
+*.bak
+*.tmp
+
+# Bỏ qua file của Resharper, Rider, và Code Analysis
+_ReSharper*/
+*.DotSettings.user
+.idea/
+*.sln.iml
+
+# Bỏ qua file lock của NuGet
+project.lock.json
+global.json
+
+# Nếu sử dụng GitHub Actions hoặc CI/CD, bỏ qua workspace
+workspace/
+
+# Nếu sử dụng JetBrains Rider hoặc Visual Studio Code, bỏ qua thư mục cấu hình
+.idea/
+.vscode/
