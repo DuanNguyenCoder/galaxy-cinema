@@ -1,61 +1,66 @@
-<mat-card
-  class="transition-transform bg-[#0e0e10] border-t-[5px] border-orange-400 text-white min-w-[350px] duration-300 ease-in-out"
->
-  <mat-card-header class="flex justify-center">
-    <mat-card-title>GIỎ HÀNG CỦA BẠN</mat-card-title>
-  </mat-card-header>
+<div class="min-w-[350px] h-full">
+  <mat-card
+    class="transition-transform bg-[#0e0e10] border-t-[5px] border-orange-400 text-white min-w-[350px] top-[160px] !sticky duration-300 ease-in-out"
+  >
+    <mat-card-header class="flex justify-center">
+      <mat-card-title>GIỎ HÀNG CỦA BẠN</mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content>
-    <!-- item movie -->
-    <div
-      *ngFor="let ticket of groupByType(dataTicket)"
-      class="flex py-2 items-baseline gap-3"
-    >
-      <button class="mt-1 checkbox rounded-md bg-red-500 text-white" type="">
-        X
-      </button>
-      <p
-        class="text-green-400 min-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis w-[150px]"
+    <mat-card-content>
+      <!-- item movie -->
+      <div
+        *ngFor="let ticket of groupByType(dataTicket)"
+        class="flex py-2 items-baseline gap-3"
       >
-        vé {{ dataMovie.name }} - {{ ticket.type }}
-      </p>
-      <p class="flex min-w-[20px] ml-auto">x{{ ticket.quantity }}</p>
-      <p class="flex min-w-[70px] ml-auto">
-        {{ ticket.total | number : "1.0" }}
-      </p>
-    </div>
-    <!-- item movie -->
-    <div
-      *ngIf="checkHaveSomeCombo"
-      style="border-width: 1px"
-      class="!border-dashed border-white"
-    ></div>
-    <!-- item combo -->
-    <div *ngFor="let combo of dataComboFood">
-      <div *ngIf="combo.quantity != 0" class="flex py-2 items-baseline gap-3">
         <button class="mt-1 checkbox rounded-md bg-red-500 text-white" type="">
           X
         </button>
         <p
           class="text-green-400 min-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis w-[150px]"
         >
-          {{ combo.name }}
+          vé {{ dataMovie.name }} - {{ ticket.type }}
         </p>
-        <p class="flex min-w-[20px] ml-auto">x{{ combo.quantity }}</p>
-        <p class="flex ml-auto min-w-[70px]">
-          {{ combo.price * combo.quantity | number : "1.0" }}
+        <p class="flex min-w-[20px] ml-auto">x{{ ticket.quantity }}</p>
+        <p class="flex min-w-[70px] ml-auto">
+          {{ ticket.total | number : "1.0" }}
         </p>
       </div>
-    </div>
-    <!-- item combo -->
+      <!-- item movie -->
+      <div
+        *ngIf="checkHaveSomeCombo"
+        style="border-width: 1px"
+        class="!border-dashed border-white"
+      ></div>
+      <!-- item combo -->
+      <div *ngFor="let combo of dataComboFood">
+        <div *ngIf="combo.quantity != 0" class="flex py-2 items-baseline gap-3">
+          <button
+            class="mt-1 checkbox rounded-md bg-red-500 text-white"
+            type=""
+          >
+            X
+          </button>
+          <p
+            class="text-green-400 min-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis w-[150px]"
+          >
+            {{ combo.name }}
+          </p>
+          <p class="flex min-w-[20px] ml-auto">x{{ combo.quantity }}</p>
+          <p class="flex ml-auto min-w-[70px]">
+            {{ combo.price * combo.quantity | number : "1.0" }}
+          </p>
+        </div>
+      </div>
+      <!-- item combo -->
 
-    <div
-      class="border-t-2 text-[25px] py-2 items-baseline border-white border-dashed flex justify-between"
-    >
-      <mat-card-title class="text-xl">Tổng cộng</mat-card-title>
-      <mat-card-title class="text-xl">{{
-        orderSer.getTicketData().totalPrice | number : "1.0"
-      }}</mat-card-title>
-    </div>
-  </mat-card-content>
-</mat-card>
+      <div
+        class="border-t-2 text-[25px] py-2 items-baseline border-white border-dashed flex justify-between"
+      >
+        <mat-card-title class="text-xl">Tổng cộng</mat-card-title>
+        <mat-card-title class="text-xl">{{
+          orderSer.getTicketData().totalPrice | number : "1.0"
+        }}</mat-card-title>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

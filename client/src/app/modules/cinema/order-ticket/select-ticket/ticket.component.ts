@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TypeTicket } from 'src/app/models/enum';
 
 import { OrderService } from 'src/app/services/order.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ticket',
@@ -10,6 +11,7 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./ticket.component.scss'],
 })
 export class TicketComponent implements OnInit {
+  public baseUrl = environment.BASE_URL;
   public adultQuantity: number = 0;
   public u22Quantity: number = 0;
   public test = 3;

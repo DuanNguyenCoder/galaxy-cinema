@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DateInfo, MovieShowTime, Seat } from 'src/app/models/project';
 import { OrderService } from 'src/app/services/order.service';
 import { SeatService } from 'src/app/services/seat.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-seat',
@@ -13,6 +12,7 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./seat.component.scss'],
 })
 export class SeatComponent {
+  baseUrl = environment.BASE_URL;
   seats: Seat[] = [];
   dataMovie!: MovieShowTime;
   dataMovieShowTime!: any;

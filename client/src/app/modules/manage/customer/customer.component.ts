@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  CustomerService,
-  Customer,
-  CustomerResponse,
-} from '../../../services/customer.service';
+import { CustomerService } from '../../../services/customer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditCustomerDialogComponent } from './edit-customer-dialog/edit-customer-dialog.component';
 import { ToastService } from 'src/app/services/toast.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Customer } from 'src/app/models/project';
 
 @Component({
   selector: 'app-customer-manage',
@@ -72,7 +69,7 @@ export class CustomerComponent implements OnInit {
       if (result) {
         if (customer) {
           // Cập nhật khách hàng
-          this.customerService.updateCustomer(customer.id, result).subscribe({
+          this.customerService.updateCustomer(customer.id!, result).subscribe({
             next: (response: any) => {
               const index = this.customers.findIndex(
                 (c) => c.id === customer.id
@@ -94,7 +91,7 @@ export class CustomerComponent implements OnInit {
 
   deleteCustomer(customer: Customer): void {
     if (confirm(`Bạn có chắc chắn muốn xóa khách hàng ${customer.name}?`)) {
-      this.customerService.deleteCustomer(customer.id).subscribe({
+      this.customerService.deleteCustomer(customer.id!).subscribe({
         next: () => {
           this.customers = this.customers.filter((c) => c.id !== customer.id);
           this.toastSer.showSuccess('Đã xóa khách hàng thành công');

@@ -43,13 +43,28 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="w-full" *ngIf="isEdit">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          matInput
+          formControlName="passwords"
+          placeholder="Nhập số điện thoại"
+        />
+        <mat-error *ngIf="customerForm.get('passwords')?.hasError('required')">
+          Vui lòng nhập mật khẩu
+        </mat-error>
+        <mat-error *ngIf="customerForm.get('passwords')?.hasError('pattern')">
+          Mật khẩu quá ngắn
+        </mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline" class="w-full" *ngIf="isEdit">
         <mat-label>Trạng thái</mat-label>
         <mat-select formControlName="status">
           <mat-option value="active">Hoạt động</mat-option>
           <mat-option value="inactive">Đã khóa</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

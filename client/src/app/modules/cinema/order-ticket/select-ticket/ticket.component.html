@@ -1,29 +1,59 @@
 <div class="flex">
   <!-- LEFT -->
   <div class="left">
-    <div class="infor flex">
-      <img
-        class="w-[300px] h-[400px]"
-        [src]="orderSer.getTicketData().movie.image"
-        alt="wrong"
-      />
-      <div class="detail-infor ml-[20px] flex flex-col">
-        <h2 class="text-green-600 text-xl">
-          {{ orderSer.getTicketData().movie.name }}
-        </h2>
-        <p>
-          Suất chiếu thu 7 ngày 20 tháng 1 luc
-          {{ orderSer.getTicketData().showtime.startShow }}
-        </p>
-        <p>
-          Galaxy Le Van Viet rap {{ orderSer.getTicketData().showtime.screen }}
-        </p>
+    <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
+      <div class="flex flex-col md:flex-row">
+        <div class="relative">
+          <img
+            class="w-full md:w-[300px] h-[400px] object-cover"
+            [src]="baseUrl + orderSer.getTicketData().movie.image"
+            alt="Movie Poster"
+          />
+          <div
+            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent p-3"
+          >
+            <h2 class="text-white text-2xl font-bold">
+              {{ orderSer.getTicketData().movie.name }}
+            </h2>
+          </div>
+        </div>
+
+        <div class="p-4 flex-1">
+          <div class="space-y-3">
+            <div class="flex items-center text-gray-400">
+              <i class="fas fa-calendar-alt mt-[2px] mr-2 text-green-400"></i>
+              <span>
+                Suất chiếu: {{ orderSer.getTicketData().showtime.startShow }} -
+                {{
+                  orderSer.getTicketData().showtime.date | date : "dd/MM/yyyy"
+                }}
+              </span>
+            </div>
+            <div class="flex items-center text-gray-400">
+              <i class="fas fa-film mt-[2px] mr-2 text-green-400"></i>
+              <span>
+                Rạp: {{ orderSer.getTicketData().showtime.screen }} - Galaxy
+                Nguyễn Du
+              </span>
+            </div>
+            <div class="flex items-center text-gray-400">
+              <i class="fas fa-clock mt-[2px] mr-2 text-green-400"></i>
+              <span>
+                Thời lượng: {{ orderSer.getTicketData().movie.time }} phút
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="my-[20px] warning">
-      <h2 class="text-red-600 text-xl">Lưu Ý</h2>
-      <p>- Hãy chọn kỹ loại vé và số lượng bạn muốn mua</p>
-      <p>- Vui lòng chọn kỹ loại vé và số lượng quý khách muốn mua</p>
+
+    <div class="bg-red-800/30 border-l-4 border-red-500 p-3 mb-6 rounded-r-lg">
+      <h2 class="text-red-300 text-xl font-semibold mb-1">Lưu Ý</h2>
+      <ul class="list-disc list-inside space-y-1 text-gray-400">
+        <li>Hãy chọn kỹ loại vé và số lượng bạn muốn mua</li>
+        <li>Vui lòng kiểm tra thông tin trước khi thanh toán</li>
+        <li>Vé đã mua không thể hoàn tiền hoặc đổi suất chiếu</li>
+      </ul>
     </div>
     <!--  -->
     <blockquote class="text-2xl text-white font-semibold italic text-center">
@@ -49,8 +79,7 @@
             <tr>
               <th class="px-6 py-4">Vé</th>
               <th class="px-6 py-4">Giá</th>
-              <th class="px-6 py-4">Số lượng</th>
-              <th class="px-6 py-4">Tổng</th>
+              <th class="px-6 text-center py-4">Số lượng</th>
             </tr>
           </thead>
           <tbody>
@@ -59,65 +88,55 @@
               <td class="whitespace-nowrap px-6 pb-4">Adult-standar-2d</td>
               <td class="whitespace-nowrap px-6 pb-4">75.000</td>
               <td class="whitespace-nowrap px-6 pb-4">
-                <div class="flex gap-2 border-solid border-2 border-green-600">
+                <div class="flex items-center justify-center space-x-2">
                   <button
                     (click)="action('ADULT', 'dec')"
-                    mat-raised-button
-                    class="text-xl text-green-600 grow"
+                    class="w-8 h-8 rounded-full bg-gray-700 text-green-400 hover:bg-gray-600 transition-colors"
                   >
                     -
                   </button>
                   <input
                     type="number"
                     min="0"
-                    value="{{ adultQuantity }}"
-                    class="text-center w-14 text-black"
+                    [value]="adultQuantity"
+                    class="w-16 text-center bg-gray-700 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-green-400 text-white"
+                    readonly
                   />
-
                   <button
                     (click)="action('ADULT', 'inc')"
-                    mat-raised-button
-                    class="text-xl text-green-600 grow"
+                    class="w-8 h-8 rounded-full bg-gray-700 text-green-400 hover:bg-gray-600 transition-colors"
                   >
                     +
                   </button>
                 </div>
               </td>
-              <td class="whitespace-nowrap px-6 pb-4">
-                {{ adultTotal | number : "1.0" }}
-              </td>
             </tr>
-            <!-- children standar -->
+            <!-- U22 standar -->
             <tr>
               <td class="whitespace-nowrap px-6 pb-4">u22-standar-2d</td>
               <td class="whitespace-nowrap px-6 pb-4">65.000</td>
               <td class="whitespace-nowrap px-6 pb-4">
-                <div class="flex gap-2 border-solid border-2 border-green-600">
+                <div class="flex items-center justify-center space-x-2">
                   <button
                     (click)="action('U22', 'dec')"
-                    mat-raised-button
-                    class="text-xl text-green-600 grow"
+                    class="w-8 h-8 rounded-full bg-gray-700 text-green-400 hover:bg-gray-600 transition-colors"
                   >
                     -
                   </button>
                   <input
                     type="number"
                     min="0"
-                    value="{{ u22Quantity }}"
-                    class="text-center w-14 text-black"
+                    [value]="u22Quantity"
+                    class="w-16 text-center bg-gray-700 border-2 border-gray-600 rounded-lg focus:outline-none focus:border-green-400 text-white"
+                    readonly
                   />
-
                   <button
                     (click)="action('U22', 'inc')"
-                    mat-raised-button
-                    class="text-xl text-green-600 grow"
+                    class="w-8 h-8 rounded-full bg-gray-700 text-green-400 hover:bg-gray-600 transition-colors"
                   >
                     +
                   </button>
                 </div>
-              </td>
-              <td class="whitespace-nowrap px-6 pb-4">
-                {{ u22Total | number : "1.0" }}
               </td>
             </tr>
           </tbody>

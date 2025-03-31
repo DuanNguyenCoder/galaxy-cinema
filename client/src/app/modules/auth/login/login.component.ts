@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClientService } from 'src/app/services/client.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ILogin } from 'src/app/models/login.model';
 
 export interface DialogData {
   animal: string;
@@ -48,14 +47,6 @@ export class LoginComponent implements OnInit {
       ],
       rememberClient: [false],
     });
-  }
-
-  getData(): ILogin {
-    return {
-      userNameOrEmailAddress: this.formData.value.userNameOrEmailAddress,
-      password: this.formData.value.password,
-      rememberClient: true,
-    };
   }
 
   validateEmpty() {

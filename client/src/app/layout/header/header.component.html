@@ -52,24 +52,38 @@
             data-target="#dropdown--menu-2"
             style="border-radius: 3px"
           >
-            <mat-dialog-actions *ngIf="!dataClient.isLogin">
-              <h2
+            <div *ngIf="!dataClient.isLogin">
+              <span
                 (click)="login()"
                 class="hover:cursor-pointer"
                 style="font-size: 14px"
               >
                 ĐĂNG NHẬP
-              </h2>
-            </mat-dialog-actions>
-            <ng-container *ngIf="dataClient.isLogin">
-              <span class="text-white text-sm">Xin chào</span>
-              <span class="text-red-600 text-sm ]">
-                {{ dataClient.name }}
               </span>
-              <i
-                (click)="logout()"
-                class="fa-solid hover:cursor-pointer text-white fa-arrow-right-from-bracket"
-              ></i>
+            </div>
+            <ng-container *ngIf="dataClient.isLogin">
+              <div
+                [matMenuTriggerFor]="menu"
+                class="hover:cursor-pointer flex gap-2"
+              >
+                <span class="text-white text-sm">Xin chào</span>
+                <span class="text-red-600 text-sm">
+                  {{ dataClient.name }}
+                </span>
+
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>
+                    <i class="mr-2 fa-solid fa-list-check"></i>Quản lý
+                  </button>
+                  <button mat-menu-item>
+                    <i class="mr-2 fa-solid fa-user"></i>Thông tin
+                  </button>
+
+                  <button mat-menu-item (click)="logout()">
+                    <i class="mr-2 fa-solid fa-right-from-bracket"></i>Đăng xuất
+                  </button>
+                </mat-menu>
+              </div>
             </ng-container>
           </div>
         </div>

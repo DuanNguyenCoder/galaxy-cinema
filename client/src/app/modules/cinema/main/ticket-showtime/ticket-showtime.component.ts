@@ -30,10 +30,10 @@ export class TicketShowtimeComponent {
   }
 
   orderTicket(showtime: any) {
-    this.orderSer.setMovie(this.orderSer.getTicketData().movie);
+    //  this.orderSer.setMovie(this.orderSer.getTicketData().movie);
     this.orderSer.setShowtime({
       id: showtime.id,
-      startShow: showtime.startShow,
+      startShow: showtime.time,
       screen: showtime.screen,
       date: showtime.date,
     });

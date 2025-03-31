@@ -18,8 +18,8 @@ export class TicketItemComponent implements OnInit {
   ngOnInit(): void {}
 
   redirect() {
-    this.orderSer.setMovie(this.dataMovie);
     localStorage.setItem('movie', JSON.stringify(this.dataMovie));
+    this.orderSer.resetMovieOrder();
     const formattedName = this.dataMovie
       .name!.replace(/\s+/g, '-')
       .toLowerCase();

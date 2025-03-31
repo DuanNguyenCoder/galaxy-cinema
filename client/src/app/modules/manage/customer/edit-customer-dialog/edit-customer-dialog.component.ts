@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Customer } from '../../../../services/customer.service';
+import { Customer } from 'src/app/models/project';
 
 @Component({
   selector: 'app-edit-customer-dialog',
@@ -28,7 +28,10 @@ export class EditCustomerDialogComponent {
         data.customer?.phone || '',
         [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
       ],
-      status: [data.customer?.status || 'active'],
+      passwords: [
+        data.customer?.passwords || '',
+        [Validators.required, Validators.pattern(/^.{6,}$/)],
+      ],
     });
   }
 

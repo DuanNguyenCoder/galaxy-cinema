@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.dialog.openDialog();
+    this.dialog.openDialogLogin();
   }
   review(movie: Movie) {
     const formattedName = movie.name!.replace(/\s+/g, '-').toLowerCase();
@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
     this.clientSer.dataClient.next({ isLogin: false });
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
-    this.dialog.openDialog();
+    this.dialog.openDialogLogin();
   }
   showAlgro() {
     // if (this.clientSer.dataClient.getValue().isLogin) {

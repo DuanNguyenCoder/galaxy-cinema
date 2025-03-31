@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Movie, MovieShowTime, Showtime } from 'src/app/models/project';
+import { OrderService } from 'src/app/services/order.service';
 import { ShowtimeService } from 'src/app/services/showtime.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,12 +12,6 @@ interface DateInfo {
   formattedDate: string;
 }
 
-// interface MovieShow {
-//   id: number;
-//   title: string;
-//   image: string;
-//   shows: string[];
-// }
 @Component({
   selector: 'app-show-time',
   templateUrl: './show-time.component.html',
@@ -34,6 +29,7 @@ export class ShowTimeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private orderSer: OrderService,
     private showtimeService: ShowtimeService
   ) {
     this.generateDates();
@@ -96,7 +92,7 @@ export class ShowTimeComponent implements OnInit {
   orderTicket(showtime: Showtime, movie: MovieShowTime): void {
     // Lưu thông tin đã chọn vào localStorage hoặc service
     localStorage.setItem(
-      'selectedMovie',
+      'movie',
       JSON.stringify({
         movieId: movie.filmID,
         title: movie.name,
@@ -107,6 +103,13 @@ export class ShowTimeComponent implements OnInit {
         screen: showtime.screen,
       })
     );
+    this.orderSer.resetMovieOrder();
+    this.orderSer.setShowtime({
+      id: showtime.id,
+      startShow: showtime.startShow,
+      screen: showtime.screen,
+      date: showtime.date,
+    });
 
     this.router.navigate(['/ticket/selectTicket']);
   }
