@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             System.out.println(e.getMessage());
-            response.getWriter().write("{\"error\": \"Token không hợp lệ hoặc đã hết hạn!\"}");
+            response.getWriter().write("{\"error\": \"Token không hợp lệ hoặc đã hết hạn!\", \"status\": \"403\"}");
         }
 
     }

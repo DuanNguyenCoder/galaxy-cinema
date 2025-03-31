@@ -2,6 +2,7 @@ package com.galaxy.services;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -13,13 +14,18 @@ import javax.mail.internet.*;
 @Service
 public class MailService {
 
+    @Value("${app.email}")
+    private String username;
+
+    @Value("${app.password}")
+    private String password;
+
     public void sendMail(String Address, String QR_Path) {
         // Cấu hình thông tin mail server và email
         String host = "smtp.gmail.com";
         String port = "587";
-        String username = "duansocua242@gmail.com";
-        String password = "qgsvfjwnlafhhjry";
-        String fromAddress = "duansocua242@gmail.com";
+
+        String fromAddress = username;
         String toAddress = Address;
         String subject = "Galaxy Cenema";
         String body = "Đây là thông tin về vé xem phim của bạn vui lòng xem kĩ ngày chiếu và suất chiếu. Mọi thắc mắc vui lòng liên hệ hotline!! From Daun service guest with love.";

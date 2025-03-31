@@ -1,5 +1,6 @@
 package com.galaxy.services;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,22 +34,22 @@ public class CustomerService {
 		return cusRepo.findAll(pageable);
 	}
 
-	public Customer updateCustomer(int id, Customer customerDetails) {
+	public Customer updateCustomer(int id, Map<String, String> customerDetails) {
 		Customer customer = getCustomerById(id);
 
-		customer.setName(customerDetails.getName());
-		customer.setPhone(customerDetails.getPhone());
+		customer.setName(customerDetails.get("name"));
+		customer.setPhone(customerDetails.get("phone"));
 
-		// Kiểm tra nếu email mới khác email cũ và đã tồn tại
-		if (!customer.getEmail().equals(customerDetails.getEmail()) &&
-				cusRepo.findByEmail(customerDetails.getEmail()).isPresent()) {
+		// Kiểm tra email
+		String newEmail = customerDetails.get("email");
+		if (!customer.getEmail().equals(newEmail) &&
+				cusRepo.findByEmail(newEmail).isPresent()) {
 			throw new IllegalArgumentException("Email đã được sử dụng");
 		}
-		customer.setEmail(customerDetails.getEmail());
-
-		// Cập nhật mật khẩu nếu có
-		if (customerDetails.getPasswords() != null && !customerDetails.getPasswords().isEmpty()) {
-			customer.setPasswords(passwordEncoder.encode(customerDetails.getPasswords()));
+		customer.setEmail(newEmail);
+		String newPassword = customerDetails.get("passwords");
+		if (newPassword != null && !newPassword.isEmpty()) {
+			customer.setPasswords(passwordEncoder.encode(newPassword));
 		}
 
 		return cusRepo.save(customer);

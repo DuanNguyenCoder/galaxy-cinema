@@ -66,7 +66,7 @@ public class CustomerController {
 	@PutMapping("/{id}")
 	public ResponseEntity<ApiResponse<Customer>> updateCustomer(
 			@PathVariable int id,
-			@RequestBody Customer customer) {
+			@RequestBody Map<String, String> customer) {
 		Customer updatedCustomer = customerService.updateCustomer(id, customer);
 		return ResponseEntity.ok(new ApiResponse<>(
 				ResponseTitle.SUCCESS,
@@ -86,12 +86,24 @@ public class CustomerController {
 	}
 
 	@GetMapping("/profile")
-	public Map<String, Object> getLogin(@RequestHeader("Authorization") String authHeader) {
-		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			throw new RuntimeException("Invalid Token");
+	public ResponseEntity<ApiResponse<?>> getLogin(@RequestHeader("Authorization") String authHeader) {
+		try {
+			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+				throw new RuntimeException("Invalid Token");
+			}
+			String token = authHeader.substring(7);
+			return ResponseEntity.ok(new ApiResponse<>(
+					ResponseTitle.SUCCESS,
+					"Lấy thông tin khách hàng thành công",
+					200,
+					customerService.getProfile(token)));
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(
+					ResponseTitle.ERROR,
+					"Lỗi",
+					HttpStatus.UNAUTHORIZED.value()));
 		}
-		String token = authHeader.substring(7);
-		return customerService.getProfile(token);
 	}
 
 	@PostMapping("/login")
