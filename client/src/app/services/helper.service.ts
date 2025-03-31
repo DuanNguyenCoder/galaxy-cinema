@@ -35,11 +35,11 @@ export class HelperService {
   resetBreadcrumbs(): void {
     this.breadcrumbs = [];
   }
-  openDialog() {
+  openDialogLogin() {
     this.dialogRef = this.dialog.open(LoginComponent);
   }
 
-  closeDialog() {
+  closeDialogLogin() {
     if (this.dialogRef) {
       this.dialogRef.close();
     }

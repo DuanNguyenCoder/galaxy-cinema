@@ -11,7 +11,7 @@ import { HelperService } from './helper.service';
   providedIn: 'root',
 })
 export class ClientService {
-  public dataClient = new BehaviorSubject<Customer>({ isLogin: false });
+  public dataClient = new BehaviorSubject<Customer>({ isLogin: undefined });
 
   constructor(
     private http: HttpClient,
@@ -35,7 +35,7 @@ export class ClientService {
             this.toast.title.SUCCESS,
             this.toast.content.LOGIN_SUCCESS
           );
-          this.dialog.closeDialog();
+          this.dialog.closeDialogLogin();
         } else {
           this.toast.showError(
             this.toast.title.LOGIN_FAIL,
@@ -50,18 +50,25 @@ export class ClientService {
     const headers = accessToken
       ? new HttpHeaders().set('Authorization', `Bearer ${accessToken}`)
       : new HttpHeaders();
-    this.http
-      .get<any>(environment.BASE_URL + 'customer/profile', { headers })
-      .subscribe((e) => {
-        localStorage.setItem('user', JSON.stringify(e));
-        const customer = {
-          ...JSON.parse(localStorage.getItem('user')!),
-          isLogin: true,
-        };
-
-        this.recommendSer.recommendForUserAndAlgorithm(customer.id);
-        this.dataClient.next(customer);
-      });
+    if (accessToken) {
+      this.http
+        .get<any>(environment.BASE_URL + 'customer/profile', { headers })
+        .subscribe((e) => {
+          if (e.status === 200) {
+            localStorage.setItem('user', JSON.stringify(e.data));
+            const customer = {
+              ...JSON.parse(localStorage.getItem('user')!),
+              isLogin: true,
+            };
+            this.dataClient.next(customer);
+            this.recommendSer.recommendForUserAndAlgorithm(customer.id);
+          } else {
+            this.dataClient.next({ isLogin: false });
+          }
+        });
+    } else {
+      this.dataClient.next({ isLogin: false });
+    }
   }
 
   createCustomer(dataRegis: Customer) {

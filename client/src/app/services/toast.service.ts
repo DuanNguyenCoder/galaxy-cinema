@@ -7,24 +7,24 @@ import { NgToastService } from 'ng-angular-popup';
 export class ToastService {
   constructor(private toast: NgToastService) {}
 
-  time: number = 1500;
+  time: number = 2500;
 
   title = {
-    LOGIN_FAIL: 'Login failed',
-    SUCCESS: 'Success',
-    FAIL: 'Fail',
-    INVALID: 'Invalid',
+    LOGIN_FAIL: 'Lỗi đăng nhập',
+    SUCCESS: 'Thành công',
+    FAIL: 'Thất bại',
+    INVALID: 'Không hợp lệ',
   };
 
   content = {
-    LOGIN_FAIL: 'Invalid user name or password!',
-    LOGIN_SUCCESS: 'Login success!',
-    ADD_FAIL: 'Add new fail!',
-    ADD_SUCCESS: 'Add new success!',
-    DELETE_FAIL: 'Delete fail!',
-    DELETE_SUCCESS: 'Delete success!',
-    NAME_INVALID: 'Invalid name!',
-    CODE_ERROR: 'Code was exsisted!',
+    LOGIN_FAIL: 'Sai mail hoặc mật khẩu!',
+    REQUEST_LOGIN: 'Vui lòng đăng nhập!',
+    LOGIN_SUCCESS: 'Đăng nhập thành công!',
+    ADD_FAIL: 'Thêm không thành công!',
+    ADD_SUCCESS: 'Thêm thành công!',
+    DELETE_FAIL: 'Xóa không thành công!',
+    DELETE_SUCCESS: 'Xóa thành công!',
+    NAME_INVALID: 'Tên không hợp lệ!',
   };
 
   showInfo(title?: string, content?: string) {

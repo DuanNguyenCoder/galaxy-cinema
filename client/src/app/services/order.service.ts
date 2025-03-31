@@ -2,56 +2,55 @@ import { Injectable } from '@angular/core';
 import { comboFood, Movie, Showtime, ticket } from '../models/project';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { loadStripe } from '@stripe/stripe-js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   public stepBreadcrumb: number = 1;
-
+  private comboFood = [
+    {
+      name: 'Combo 1 small',
+      price: 76000,
+      quantity: 0,
+      image: '../../../../assets/images/CB1-small.png',
+    },
+    {
+      name: 'Combo 1 big',
+      price: 79000,
+      quantity: 0,
+      image: '../../../../assets/images/CB1-big.png',
+    },
+    {
+      name: 'Combo 2 big',
+      price: 92000,
+      quantity: 0,
+      image: '../../../../assets/images/CB2-big.png',
+    },
+    {
+      name: 'Combo family 1 snack',
+      price: 129000,
+      quantity: 0,
+      image: '../../../../assets/images/CBF-snack.png',
+    },
+    {
+      name: 'Combo family 2 snack',
+      price: 179000,
+      quantity: 0,
+      image: '../../../../assets/images/CBF2-snack.png',
+    },
+    {
+      name: 'Combo family 2 food',
+      price: 179000,
+      quantity: 0,
+      image: '../../../../assets/images/CBF2-ff.png',
+    },
+  ];
   private ticketData: any = {
     showtime: null, // Showtime
-    movie: JSON.parse(localStorage.getItem('movie')!) as Movie, // Movie
+    movie: JSON.parse(localStorage.getItem('movie')!) as Movie, // Sử dụng local storage tránh refresh mất dữ liệu
     tickets: [], // ticket
-    comboFood: [
-      {
-        name: 'Combo 1 small',
-        price: 76000,
-        quantity: 0,
-        image: '../../../../assets/images/CB1-small.png',
-      },
-      {
-        name: 'Combo 1 big',
-        price: 79000,
-        quantity: 0,
-        image: '../../../../assets/images/CB1-big.png',
-      },
-      {
-        name: 'Combo 2 big',
-        price: 92000,
-        quantity: 0,
-        image: '../../../../assets/images/CB2-big.png',
-      },
-      {
-        name: 'Combo family 1 snack',
-        price: 129000,
-        quantity: 0,
-        image: '../../../../assets/images/CBF-snack.png',
-      },
-      {
-        name: 'Combo family 2 snack',
-        price: 179000,
-        quantity: 0,
-        image: '../../../../assets/images/CBF2-snack.png',
-      },
-      {
-        name: 'Combo family 2 food',
-        price: 179000,
-        quantity: 0,
-        image: '../../../../assets/images/CBF2-ff.png',
-      },
-    ], // combofood
+    comboFood: structuredClone(this.comboFood), // combofood
     totalPrice: 0, //number
     customer: null, // int
   };
@@ -61,15 +60,19 @@ export class OrderService {
   setShowtime(showtime: Showtime) {
     this.ticketData.showtime = showtime;
   }
-  setMovie(movie: Movie) {
-    this.ticketData.movie = movie;
+  resetMovieOrder() {
+    this.ticketData = {
+      showtime: null,
+      movie: JSON.parse(localStorage.getItem('movie')!) as Movie,
+      tickets: [],
+      comboFood: structuredClone(this.comboFood),
+      totalPrice: 0,
+      customer: null,
+    };
+    this.stepBreadcrumb = 1;
   }
   setTickets(ticket: ticket) {
     this.ticketData.tickets.push(ticket);
-    this.reCalucate();
-  }
-  SetComboFood(comboFood: number) {
-    this.ticketData.comboFood.push(comboFood);
     this.reCalucate();
   }
 
@@ -91,10 +94,6 @@ export class OrderService {
     this.ticketData.totalPrice = totalComboPrice + totalTicketPrice;
   }
 
-  SetCustomer(customer: number) {
-    this.ticketData.customer = customer;
-  }
-
   getTicketData() {
     return this.ticketData;
   }
@@ -103,17 +102,6 @@ export class OrderService {
     const adult = this.ticketData.tickets.filter((e: any) => e.type == 'ADULT');
 
     return { u22, adult };
-  }
-
-  clearDataOrder() {
-    this.ticketData = {
-      showtime: null,
-      customer: null,
-      movie: null,
-      seats: [],
-      comboFood: [],
-      totalPrice: null,
-    };
   }
 
   processCardPayment() {

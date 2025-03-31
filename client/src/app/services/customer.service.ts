@@ -2,22 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-export interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  status: 'active' | 'inactive';
-}
-
-export interface CustomerResponse {
-  content: Customer[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number;
-}
+import { Customer, CustomerAndPage } from '../models/project';
 
 @Injectable({
   providedIn: 'root',
@@ -32,13 +17,13 @@ export class CustomerService {
     page: number = 0,
     size: number = 10,
     search: string = ''
-  ): Observable<CustomerResponse> {
+  ): Observable<CustomerAndPage> {
     const params = {
       page: page.toString(),
       size: size.toString(),
       search,
     };
-    return this.http.get<CustomerResponse>(this.apiUrl, { params });
+    return this.http.get<CustomerAndPage>(this.apiUrl, { params });
   }
 
   updateCustomer(

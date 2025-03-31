@@ -94,3 +94,11 @@ export interface Customer {
   passwords?: string;
   isLogin?: boolean;
 }
+
+export interface CustomerAndPage {
+  content: Customer[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}
