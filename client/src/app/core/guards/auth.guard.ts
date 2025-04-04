@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
+    this.clientSer.getProfile();
     return this.clientSer.dataClient.pipe(
       filter((customer: Customer) => customer.isLogin !== undefined),
       take(1),
